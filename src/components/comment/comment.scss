@@ -1,0 +1,67 @@
+@import "../../styles.scss";
+
+.comment{
+    @include themify($themes){
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 4px 5px 9px 0px rgba(0,0,0,0.41);
+    -webkit-box-shadow: 4px 5px 9px 0px rgba(0,0,0,0.41);
+    -moz-box-shadow: 4px 5px 9px 0px rgba(0,0,0,0.41);
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    .info{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        .userInfo{
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            gap: 10px;
+            div{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                cursor: pointer;
+                img{
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%            ;
+                    -webkit-border-radius: 50%            ;
+                    -moz-border-radius: 50%            ;
+                    -ms-border-radius: 50%            ;
+                    -o-border-radius: 50%            ;
+}                   object-fit: cover;
+    
+                span{
+                    font-weight: bold;
+                    font-size: 15px;
+                    color: themed("textColor");
+                }
+
+
+                .date{
+                    font-weight: 300;
+                }
+            }
+
+           
+        }
+
+        .actions{
+            color: themed("textColor");
+            cursor: pointer;
+        }
+    }
+
+    p{
+        color: themed("textColorSoft");
+    }
+}
+
+}

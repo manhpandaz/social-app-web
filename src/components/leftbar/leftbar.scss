@@ -1,0 +1,106 @@
+@import "../../styles.scss";
+
+
+.leftBar{
+
+    @include themify($themes){
+
+    flex: 2;
+    position: sticky;
+    top:70px;
+    height: calc(100vh - 70px);
+    overflow-y: scroll;
+
+    @include mobile{
+        display: none;
+    }
+
+    @include tablet{
+       height: 100vh;
+    }
+
+    // &::-webkit-scrollbar{
+    //     display: none;
+    // }
+
+    // &::-webkit-scrollbar-thumb{
+
+    // }
+
+    // &::-webkit-scrollbar-track{
+
+    // }
+
+    .container{
+        padding: 20px;
+        background-color: themed("bgColor");
+
+        @include tablet{
+            height: 100%;
+         }
+    
+        hr{
+            margin: 20px 0px;
+            border: none;
+            height: 0.5px;
+            background-color: themed("border");
+        }
+        .menu{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .title{
+                color: themed("textColor");
+            }
+            .user{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                cursor: pointer;
+                padding: 5px;
+                img{
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    -webkit-border-radius: 50%;
+                    -moz-border-radius: 50%;
+                    -ms-border-radius: 50%;
+                    -o-border-radius: 50%;
+                    object-fit: cover;
+}
+
+                span{
+                    font-weight: bold;
+                    color: themed("textColor");
+                }
+
+               
+            }
+
+            .item{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                cursor: pointer;
+                padding: 5px;
+                
+                img{
+                    width: 30px;
+                    height: 30px;
+                }
+
+                span{
+                    color: themed("textColor");
+                }
+
+                &:hover{
+                    opacity: 0.6;
+                }
+            }
+        }
+    }
+
+}
+    
+}
