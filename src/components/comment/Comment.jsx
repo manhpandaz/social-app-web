@@ -1,3 +1,4 @@
+import moment from "moment";
 import "./comment.scss";
 import CloseIcon from "@mui/icons-material/Close";
 function Comment({ comment }) {
@@ -6,10 +7,10 @@ function Comment({ comment }) {
       <div className="info">
         <div className="userInfo">
           <div>
-            <img src={comment.profilePicture} alt="" />
+            <img src={comment.profilePic} alt="" />
             <span>{comment.name}</span>
           </div>
-          <span className="date">1 hour ago</span>
+          <span className="date">{moment(comment.createdAt).fromNow()}</span>
         </div>
         <div className="actions">
           <CloseIcon />

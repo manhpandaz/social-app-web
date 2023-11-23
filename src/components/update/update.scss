@@ -1,0 +1,59 @@
+@import "../../styles.scss";
+.update{
+        @include themify($themes){
+
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        bottom:0;
+        left:0;
+        right:0;
+        top:200px;
+        margin: auto;
+        .container{
+ 
+        position: relative;
+        padding: 50px;
+        background-color: white;
+        color:#000;
+        border: 1px solid #ccc;
+        z-index: 999;
+  
+
+        form{
+                display: flex;
+                flex-direction: column;
+                gap:10px;
+                margin-bottom: 40px;
+                display: flex;
+                column-gap: 5px;
+
+                div{
+                        display: flex;
+                        gap: 10px;
+                }
+              
+                .updateBtn{
+                        cursor: pointer;
+                        background-color: #cccccc;
+                        padding: 5px;
+                        border: none;
+                }
+
+        }
+
+        
+        .closeBtn{
+                position: absolute;
+                top: 0;
+                right: 0;
+                cursor: pointer;
+                background-color: white;
+                border: 1px solid #ccc;
+                font-size: 20px;
+             }
+        }
+}
+
+    
+}

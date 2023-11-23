@@ -7,22 +7,59 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Comments from "../comments/Comments";
+import moment from "moment";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { makeRequest } from "../../axios";
+import { AuthContext } from "../../context/AuthContext";
 
 function Post({ post }) {
-  const [liked, setLiked] = useState(false);
-  const [countLiked, setCountLiked] = useState(0);
-
   const [commentOpen, setCommentOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleLike = () => {
-    if (liked) {
-      setLiked(!liked);
-      setCountLiked(countLiked - 1);
-    }
-    setLiked(liked);
-    setCountLiked(countLiked + 1);
+  const { currentUser } = useContext(AuthContext);
+
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["likes", post.id],
+    queryFn: () =>
+      makeRequest.get("/likes?postId=" + post.id).then((res) => {
+        return res.data;
+      }),
+  });
+
+  // console.log(data);
+
+  const queryClient = useQueryClient();
+
+  // Mutations
+  const mutation = useMutation({
+    mutationFn: (liked) => {
+      if (liked) return makeRequest.delete("/likes?postId=" + post.id);
+      return makeRequest.post("/likes", { postId: post.id });
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["likes"] });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (postId) => {
+      return makeRequest.delete("/posts/" + postId);
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
+
+  const handleLike = (e) => {
+    mutation.mutate(data.includes(currentUser.id));
+  };
+
+  const handleDeletePost = () => {
+    deleteMutation.mutate(post.id);
   };
 
   return (
@@ -31,7 +68,7 @@ function Post({ post }) {
         <div className="user">
           <div className="userInfo">
             {post.profilePic ? (
-              <img src={post.profilePic} alt="" />
+              <img src={"/upload/" + post.profilePic} alt="" />
             ) : (
               <AccountCircleIcon className="iconUserDefault" />
             )}
@@ -42,28 +79,43 @@ function Post({ post }) {
               >
                 <span className="username">{post.name}</span>
               </Link>
-              <span className="date">1 min ago</span>
+              <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
           </div>
           <div className="more">
-            <MoreHorizIcon />
-            <CloseIcon />
+            <MoreHorizIcon
+              className="menu"
+              onClick={(e) => setMenuOpen(!menuOpen)}
+            />
+            {menuOpen && (
+              <ul>
+                <li>option 1</li>
+                <li>option 2</li>
+                <li>option 3</li>
+              </ul>
+            )}
+            {post.userId === currentUser.id && (
+              <CloseIcon className="close" onClick={handleDeletePost} />
+            )}
           </div>
         </div>
         <div className="content">
           <p className="caption">{post.desc}</p>
-          <img src={post.img} alt="" />
-
+          <img src={"/upload/" + post.img} alt="" />
           <div className="actions"></div>
         </div>
         <div className="info">
-          <div className="item" onClick={handleLike}>
-            {liked ? (
-              <FavoriteIcon className="liked" />
+          <div className="item">
+            {isLoading ? (
+              "Loading..."
+            ) : error ? (
+              <div>{error.message}</div>
+            ) : data.includes(currentUser.id) ? (
+              <FavoriteIcon style={{ color: "red" }} onClick={handleLike} />
             ) : (
-              <FavoriteBorderOutlinedIcon />
+              <FavoriteBorderOutlinedIcon onClick={handleLike} />
             )}
-            <span>{countLiked} likes</span>
+            <span>{data?.length} likes</span>
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <ChatOutlinedIcon />
@@ -74,7 +126,7 @@ function Post({ post }) {
             <span>20 Shares</span>
           </div>
         </div>
-        {commentOpen && <Comments />}
+        {commentOpen && <Comments postId={post.id} />}
       </div>
     </div>
   );

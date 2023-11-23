@@ -4,16 +4,19 @@ import { useQuery } from "@tanstack/react-query";
 
 import { makeRequest } from "../../axios";
 import "./posts.scss";
+import { v4 as uuidv4 } from "uuid";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function Posts({ userId }) {
   const { isLoading, error, data } = useQuery({
     queryKey: ["posts"],
     queryFn: () =>
-      makeRequest.get("/posts?userId=" + userId).then((res) => res.data),
+      makeRequest.get("/posts?userId=" + userId).then((res) => {
+        return res.data;
+      }),
   });
 
-  console.log({ data });
+  // console.log({ data });
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -24,10 +27,10 @@ function Posts({ userId }) {
   }
 
   return (
-    <ErrorBoundary>
+    <ErrorBoundary fallback={"something went wrong"}>
       <div className="posts">
         {data?.map((post) => (
-          <Post post={post} key={post.id} />
+          <Post post={post} key={uuidv4()} />
         ))}
       </div>
     </ErrorBoundary>

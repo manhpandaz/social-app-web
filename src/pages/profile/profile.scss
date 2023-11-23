@@ -2,18 +2,36 @@
 
 .profile{
     @include themify($themes){
-
+        // position: relative;
         background-color: themed("bgColor");
         width: 100%;
         height: 100%;
         color: themed("textColor");
         .profileImg{
             position: relative;
-            margin-bottom: 120px;
-
-            .profileCover{
+            margin-bottom: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .coverPic{
                 width: 100%;
                 height: 300px;
+                object-fit: cover;
+            }
+
+            .profilePic{
+                position: absolute;
+                top: 50%;
+                width: 200px;
+                height: 200px;
+                border-radius: 50%;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+                -ms-border-radius: 50%;
+                -o-border-radius: 50%;
+                margin: 0px auto;
+                border: 2px solid themed("border");
+                background-color: themed("bgColor");
                 object-fit: cover;
             }
 
@@ -22,8 +40,7 @@
                 display: flex; 
                 flex-direction: column;
                 align-items: center;
-                gap: 20px;
-                bottom: -100px;
+                bottom: -130px;
                 left: 50%;
                 transform: translateX(-50%);
                 -webkit-transform: translateX(-50%);
@@ -31,19 +48,7 @@
                 -ms-transform: translateX(-50%);
                 -o-transform: translateX(-50%);
                 
-                .infoPicture{
                 
-                    width: 200px;
-                    height: 200px;
-                    border-radius: 50%;
-                    -webkit-border-radius: 50%;
-                    -moz-border-radius: 50%;
-                    -ms-border-radius: 50%;
-                    -o-border-radius: 50%;
-                    border: 2px solid themed("border");
-  
-                    object-fit: cover;
-                }
 
                 .username{
                     font-weight: bold;
@@ -83,8 +88,9 @@
 
                 
                
-                .Links{
+                .links{
                     display: flex;
+
                     gap: 10px;
                    
                     a{
@@ -124,11 +130,13 @@
 
               
                 }
-                .followButton{
+                button{
+                    display: flex;
+                    align-items: center;
                     background-color: themed("followBtn");
                     color: themed("textColor");
                     border: none;
-                    padding: 10px 20px;
+                    padding: 10px 20px;     
                     cursor: pointer;
                     border-radius: 5px;
                     -webkit-border-radius: 5px;

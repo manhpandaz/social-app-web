@@ -11,16 +11,29 @@ import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { useContext } from "react";
 import { DarkModeContext } from "../../context/DarkModeContext";
 import { AuthContext } from "../../context/AuthContext";
-function Navbar(props) {
+import { useQuery } from "@tanstack/react-query";
+import { makeRequest } from "../../axios";
+function Navbar({ user }) {
   const { toggleTheme, darkMode } = useContext(DarkModeContext);
   const { currentUser } = useContext(AuthContext);
+
+  // const { isLoading, error, data } = useQuery({
+  //   queryKey: ["users", currentUser.id],
+  //   queryFn: () =>
+  //     makeRequest.get("/users/find?userId=" + currentUser.id).then((res) => {
+  //       return res.data;
+  //     }),
+  // });
+
+  // console.log(data);
+
   return (
     <div className="navbar">
       <div className="left">
-        <Link to="/home" style={{ textDecoration: "none" }}>
+        <Link to="/" style={{ textDecoration: "none" }}>
           <span>Social App</span>
         </Link>
-        <Link to="/home">
+        <Link to="/">
           <HomeOutlinedIcon className="lefIcon" />
         </Link>
         {darkMode ? (
